@@ -1,8 +1,8 @@
 module github.com/fengzehao/dm-go-driver
 
-go 1.26.1
+go 1.13
 
 require (
-	github.com/golang/snappy v1.0.0
-	golang.org/x/text v0.35.0
+	github.com/golang/snappy v0.0.1
+	golang.org/x/text v0.3.2
 )
