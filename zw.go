@@ -6,11 +6,12 @@
 package dm
 
 import (
-	"github.com/fengzehao/dm-go-driver/util"
 	"math/rand"
 	"strconv"
 	"sync"
 	"time"
+
+	"github.com/fengzehao/dm-go-driver/util"
 )
 
 var rwMap sync.Map

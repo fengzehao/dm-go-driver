@@ -6,7 +6,6 @@
 package dm
 
 import (
-	"github.com/fengzehao/dm-go-driver/util"
 	"fmt"
 	"math"
 	"strconv"
@@ -14,6 +13,8 @@ import (
 	"time"
 	"unicode"
 	"unicode/utf8"
+
+	"github.com/fengzehao/dm-go-driver/util"
 )
 
 type oracleDateFormat struct {

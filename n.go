@@ -8,7 +8,6 @@ import (
 	"bytes"
 	"context"
 	"database/sql/driver"
-	"github.com/fengzehao/dm-go-driver/util"
 	"net"
 	"net/url"
 	"os"
@@ -19,6 +18,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/fengzehao/dm-go-driver/util"
 )
 
 const (
@@ -93,7 +94,9 @@ const (
 	RowPrefetchKey          = "rowPrefetch"
 	BufPrefetchKey          = "bufPrefetch"
 	LobModeKey              = "LobMode"
-	StmtPoolSizeKey         = "StmtPoolSize"
+	StmtPoolSizeKey         = "stmtPoolSize"
+	PstmtPoolSizeKey        = "pstmtPoolSize"
+	PstmtPoolValidTimeKey   = "pstmtPoolValidTime"
 
 	AlwayseAllowCommitKey    = "AlwayseAllowCommit"
 	BatchTypeKey             = "batchType"
@@ -178,8 +181,8 @@ const (
 
 	RW_SEPARATE_USER_DEFINED int32 = 5
 
-	compressDef   = Dm_build_374
-	compressIDDef = Dm_build_375
+	compressDef   = Dm_build_786
+	compressIDDef = Dm_build_787
 
 	charCodeDef = ""
 
@@ -233,7 +236,7 @@ const (
 
 	sessionTimeoutDef = 0
 
-	osAuthTypeDef = Dm_build_357
+	osAuthTypeDef = Dm_build_769
 
 	continueBatchOnErrorDef = false
 
@@ -243,7 +246,7 @@ const (
 
 	maxRowsDef = 0
 
-	rowPrefetchDef = Dm_build_358
+	rowPrefetchDef = Dm_build_770
 
 	bufPrefetchDef = 0
 
@@ -375,7 +378,11 @@ type DmConnector struct {
 
 	lobMode int
 
-	stmtPoolMaxSize int
+	stmtPoolSize int
+
+	pstmtPoolSize int
+
+	pstmtPoolValidTime int64
 
 	alwayseAllowCommit bool
 
@@ -488,7 +495,9 @@ func (c *DmConnector) init() *DmConnector {
 	c.rowPrefetch = rowPrefetchDef
 	c.bufPrefetch = bufPrefetchDef
 	c.lobMode = lobModeDef
-	c.stmtPoolMaxSize = stmtPoolMaxSizeDef
+	c.stmtPoolSize = stmtPoolMaxSizeDef
+	c.pstmtPoolSize = 0
+	c.pstmtPoolValidTime = 0
 
 	c.alwayseAllowCommit = alwayseAllowCommitDef
 	c.batchType = 1
@@ -532,7 +541,7 @@ func (c *DmConnector) setAttributes(props *Properties) error {
 	c.rwStandby = props.GetBool(RwStandbyKey, c.rwStandby)
 
 	if b := props.GetBool(IsCompressKey, false); b {
-		c.compress = Dm_build_373
+		c.compress = Dm_build_785
 	}
 
 	c.compress = props.GetInt(CompressKey, c.compress, 0, 2)
@@ -586,9 +595,11 @@ func (c *DmConnector) setAttributes(props *Properties) error {
 	c.autoCommit = props.GetBool(AutoCommitKey, c.autoCommit)
 	c.maxRows = props.GetInt(MaxRowsKey, c.maxRows, 0, int(INT32_MAX))
 	c.rowPrefetch = props.GetInt(RowPrefetchKey, c.rowPrefetch, 0, int(INT32_MAX))
-	c.bufPrefetch = props.GetInt(BufPrefetchKey, c.bufPrefetch, int(Dm_build_359), int(Dm_build_360))
+	c.bufPrefetch = props.GetInt(BufPrefetchKey, c.bufPrefetch, int(Dm_build_771), int(Dm_build_772))
 	c.lobMode = props.GetInt(LobModeKey, c.lobMode, 1, 2)
-	c.stmtPoolMaxSize = props.GetInt(StmtPoolSizeKey, c.stmtPoolMaxSize, 0, int(INT32_MAX))
+	c.stmtPoolSize = props.GetInt(StmtPoolSizeKey, c.stmtPoolSize, 0, int(INT32_MAX))
+	c.pstmtPoolSize = props.GetInt(PstmtPoolSizeKey, c.pstmtPoolSize, 0, int(INT32_MAX))
+	c.pstmtPoolValidTime = int64(props.GetInt(PstmtPoolValidTimeKey, int(c.pstmtPoolValidTime), 0, int(INT32_MAX)))
 
 	c.alwayseAllowCommit = props.GetBool(AlwayseAllowCommitKey, c.alwayseAllowCommit)
 	c.batchType = props.GetInt(BatchTypeKey, c.batchType, 1, 2)
@@ -674,26 +685,26 @@ func (c *DmConnector) parseOsAuthType(props *Properties) error {
 	value := props.GetString(OsAuthTypeKey, "")
 	if value != "" && !util.StringUtil.IsDigit(value) {
 		if util.StringUtil.EqualsIgnoreCase(value, "ON") {
-			c.osAuthType = Dm_build_357
+			c.osAuthType = Dm_build_769
 		} else if util.StringUtil.EqualsIgnoreCase(value, "SYSDBA") {
-			c.osAuthType = Dm_build_353
+			c.osAuthType = Dm_build_765
 		} else if util.StringUtil.EqualsIgnoreCase(value, "SYSAUDITOR") {
-			c.osAuthType = Dm_build_355
+			c.osAuthType = Dm_build_767
 		} else if util.StringUtil.EqualsIgnoreCase(value, "SYSSSO") {
-			c.osAuthType = Dm_build_354
+			c.osAuthType = Dm_build_766
 		} else if util.StringUtil.EqualsIgnoreCase(value, "AUTO") {
-			c.osAuthType = Dm_build_356
+			c.osAuthType = Dm_build_768
 		} else if util.StringUtil.EqualsIgnoreCase(value, "OFF") {
-			c.osAuthType = Dm_build_352
+			c.osAuthType = Dm_build_764
 		}
 	} else {
 		c.osAuthType = byte(props.GetInt(OsAuthTypeKey, int(c.osAuthType), 0, 4))
 	}
-	if c.user == "" && c.osAuthType == Dm_build_352 {
+	if c.user == "" && c.osAuthType == Dm_build_764 {
 		c.user = "SYSDBA"
-	} else if c.osAuthType != Dm_build_352 && c.user != "" {
+	} else if c.osAuthType != Dm_build_764 && c.user != "" {
 		return ECGO_OSAUTH_ERROR.throw()
-	} else if c.osAuthType != Dm_build_352 {
+	} else if c.osAuthType != Dm_build_764 {
 		c.user = os.Getenv("user")
 		c.password = ""
 	}
@@ -948,7 +959,7 @@ func (c *DmConnector) connectSingle(ctx context.Context) (*DmConnection, error) 
 	dc.objId = -1
 	dc.init()
 
-	dc.Access, err = dm_build_14(ctx, dc)
+	dc.Access, err = dm_build_426(ctx, dc)
 	if err != nil {
 		return nil, err
 	}
@@ -959,7 +970,7 @@ func (c *DmConnector) connectSingle(ctx context.Context) (*DmConnection, error) 
 	}
 	defer dc.finish()
 
-	if err = dc.Access.dm_build_59(); err != nil {
+	if err = dc.Access.dm_build_471(); err != nil {
 
 		if !dc.closed.IsSet() {
 			close(dc.closech)

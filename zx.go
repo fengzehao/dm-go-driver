@@ -8,12 +8,13 @@ import (
 	"context"
 	"database/sql"
 	"database/sql/driver"
-	"github.com/fengzehao/dm-go-driver/util"
 	"errors"
 	"io"
 	"regexp"
 	"strings"
 	"time"
+
+	"github.com/fengzehao/dm-go-driver/util"
 )
 
 const (
@@ -29,6 +30,8 @@ const (
 		"on archIni.arch_dest = mailIni.mal_inst_name " + "left join V$MAL_LINK_STATUS " +
 		"on CTL_LINK_STATUS  = 'CONNECTED' AND DATA_LINK_STATUS = 'CONNECTED' " +
 		"where archIni.arch_type in ('TIMELY', 'REALTIME') AND  archIni.arch_status = 'VALID'"
+
+	SQL_SELECT_AFC_STANDBY = "SELECT DISTINCT AFC.INST_NAME, AFC.HOST, AFC.PORT FROM V$RAFT_ADDR_INFO AFC"
 )
 
 type rwUtil struct {
@@ -159,7 +162,7 @@ func (RWUtil rwUtil) connectStandby(connection *DmConnection) error {
 }
 
 func (RWUtil rwUtil) chooseValidStandby(connection *DmConnection) (*ep, error) {
-	var filter, filter2 string
+	var filter, filter2, filter3 string
 	var stmt *DmStatement
 	var rs *DmRows
 	var err error
@@ -180,6 +183,7 @@ func (RWUtil rwUtil) chooseValidStandby(connection *DmConnection) (*ep, error) {
 		if len(epStr) > 0 {
 			filter = " and (mailIni.INST_IP || ':'|| mailIni.INST_PORT) in (" + epStr + ")"
 			filter2 = " and (mailIni.mal_INST_HOST || ':'|| mailIni.mal_INST_PORT) in (" + epStr + ")"
+			filter3 = " WHERE (AFC.HOST || ':'|| AFC.PORT) IN (" + epStr + ")"
 		}
 	}
 
@@ -206,6 +210,21 @@ func (RWUtil rwUtil) chooseValidStandby(connection *DmConnection) (*ep, error) {
 			stmt, rs, err = connection.driverQuery(SQL_SELECT_STANDBY2 + filter)
 		} else {
 			stmt, rs, err = connection.driverQuery(SQL_SELECT_STANDBY + filter2)
+		}
+	}
+
+	if err != nil || (rs != nil && rs.CurrentRows.getRowCount() == 0) {
+		afcStmt, afcRs, afcErr := connection.driverQuery(SQL_SELECT_AFC_STANDBY + filter3)
+
+		if afcErr != nil {
+			afcRs.close()
+			afcStmt.close()
+		} else {
+
+			rs.close()
+			stmt.close()
+			rs = afcRs
+			stmt = afcStmt
 		}
 	}
 
@@ -330,14 +349,14 @@ func (RWUtil rwUtil) executeByConn(conn *DmConnection, query string, execute1 fu
 	}
 
 	switch curConn.lastExecInfo.retSqlType {
-	case Dm_build_384, Dm_build_385, Dm_build_389, Dm_build_397, Dm_build_396, Dm_build_387:
+	case Dm_build_796, Dm_build_797, Dm_build_801, Dm_build_809, Dm_build_808, Dm_build_799:
 		{
 
 			if otherConn != nil {
 				execute2(otherConn)
 			}
 		}
-	case Dm_build_394:
+	case Dm_build_806:
 		{
 
 			sqlhead := regexp.MustCompile("[ (]").Split(strings.TrimSpace(query), 2)[0]
@@ -347,7 +366,7 @@ func (RWUtil rwUtil) executeByConn(conn *DmConnection, query string, execute1 fu
 				}
 			}
 		}
-	case Dm_build_393:
+	case Dm_build_805:
 		{
 
 			if conn.dmConnector.rwHA && curConn == conn.rwInfo.connStandby &&
@@ -401,7 +420,7 @@ func (RWUtil rwUtil) executeByStmt(stmt *DmStatement, execute1 func() (interface
 	}
 
 	switch curStmt.execInfo.retSqlType {
-	case Dm_build_384, Dm_build_385, Dm_build_389, Dm_build_397, Dm_build_396, Dm_build_387:
+	case Dm_build_796, Dm_build_797, Dm_build_801, Dm_build_809, Dm_build_808, Dm_build_799:
 		{
 
 			if otherStmt != nil {
@@ -409,7 +428,7 @@ func (RWUtil rwUtil) executeByStmt(stmt *DmStatement, execute1 func() (interface
 				execute2(otherStmt)
 			}
 		}
-	case Dm_build_394:
+	case Dm_build_806:
 		{
 
 			var tmpsql string
@@ -428,7 +447,7 @@ func (RWUtil rwUtil) executeByStmt(stmt *DmStatement, execute1 func() (interface
 				}
 			}
 		}
-	case Dm_build_393:
+	case Dm_build_805:
 		{
 
 			if stmt.dmConn.dmConnector.rwHA && curStmt == stmt.rwInfo.stmtStandby &&

@@ -119,7 +119,8 @@ func (d DmDecimal) ToBigFloat() *big.Float {
 }
 
 func NewDecimalFromString(s string) (*DmDecimal, error) {
-	num, ok := new(big.Float).SetString(strings.TrimSpace(s))
+
+	num, ok := new(big.Float).SetPrec(256).SetString(strings.TrimSpace(s))
 	if !ok {
 		return nil, ECGO_DATA_CONVERTION_ERROR.throw()
 	}
@@ -400,7 +401,7 @@ func decodeDecimal(values []byte, prec int, scale int) (*DmDecimal, error) {
 		decimal.sign = -1
 	}
 
-	var flag = int(Dm_build_943.Dm_build_1063(values, 0))
+	var flag = int(Dm_build_1355.Dm_build_1475(values, 0))
 	var exp int
 	if decimal.sign > 0 {
 		exp = flag - FLAG_POSITIVE

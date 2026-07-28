@@ -7,10 +7,11 @@ package dm
 
 import (
 	"bytes"
-	"github.com/fengzehao/dm-go-driver/util"
 	"math/rand"
 	"sync"
 	"time"
+
+	"github.com/fengzehao/dm-go-driver/util"
 )
 
 /**

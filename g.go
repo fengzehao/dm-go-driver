@@ -5,7 +5,6 @@
 package dm
 
 import (
-	"github.com/fengzehao/dm-go-driver/util"
 	"fmt"
 	"math"
 	"os"
@@ -15,6 +14,8 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
+
+	"github.com/fengzehao/dm-go-driver/util"
 )
 
 type ExecuteTypeEnum int
@@ -2031,7 +2032,7 @@ type statFlusher struct {
 	flushFreq  int
 	filePath   string
 	filePrefix string
-	buffer     *Dm_build_1224
+	buffer     *Dm_build_0
 }
 
 func newStatFlusher() *statFlusher {
@@ -2042,7 +2043,7 @@ func newStatFlusher() *statFlusher {
 	sf.flushFreq = StatFlushFreq
 	sf.filePath = StatDir
 	sf.filePrefix = "dm_go_stat"
-	sf.buffer = Dm_build_1228()
+	sf.buffer = Dm_build_4()
 	return sf
 }
 
@@ -2104,25 +2105,25 @@ func (sf *statFlusher) writeAndFlush(logs []string, startOff int, l int) {
 	for i := startOff; i < startOff+l; i++ {
 		bytes = []byte(logs[i] + util.StringUtil.LineSeparator())
 
-		sf.buffer.Dm_build_1250(bytes, 0, len(bytes))
+		sf.buffer.Dm_build_26(bytes, 0, len(bytes))
 
-		if sf.buffer.Dm_build_1229() >= FLUSH_SIZE {
+		if sf.buffer.Dm_build_5() >= FLUSH_SIZE {
 			sf.doFlush(sf.buffer)
 		}
 	}
 
-	if sf.buffer.Dm_build_1229() > 0 {
+	if sf.buffer.Dm_build_5() > 0 {
 		sf.doFlush(sf.buffer)
 	}
 }
 
-func (sf *statFlusher) doFlush(buffer *Dm_build_1224) {
+func (sf *statFlusher) doFlush(buffer *Dm_build_0) {
 	if sf.needCreateNewFile() {
 		sf.closeCurrentFile()
 		sf.logFile = sf.createNewFile()
 	}
 	if sf.logFile != nil {
-		buffer.Dm_build_1244(sf.logFile, buffer.Dm_build_1229())
+		buffer.Dm_build_20(sf.logFile, buffer.Dm_build_5())
 	}
 }
 func (sf *statFlusher) closeCurrentFile() {

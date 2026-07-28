@@ -6,10 +6,11 @@ package dm
 
 import (
 	"bytes"
-	"github.com/fengzehao/dm-go-driver/parser"
-	"github.com/fengzehao/dm-go-driver/util"
 	"strconv"
 	"strings"
+
+	"github.com/fengzehao/dm-go-driver/parser"
+	"github.com/fengzehao/dm-go-driver/util"
 )
 
 func (dc *DmConnection) lex(sql string) ([]*parser.LVal, error) {
@@ -226,12 +227,19 @@ func (dc *DmConnection) execOpt(sql string, optParamList []OptParameter, serverE
 		case parser.DOUBLE:
 			{
 				nsql.WriteString("?")
-				f, err := strconv.ParseFloat(lval.Value, 64)
-				if err != nil {
-					return sql, nil, err
-				}
 
-				optParamList = append(optParamList, newOptParameter(G2DB.toFloat64(f), DOUBLE, DOUBLE_PREC))
+				decimalBytes, err := G2DB.toDecimal(lval.Value)
+				if err == nil {
+					optParamList = append(optParamList, newOptParameter(decimalBytes, DECIMAL, 0))
+				} else {
+
+					f, err := strconv.ParseFloat(lval.Value, 64)
+					if err != nil {
+						return sql, nil, err
+					}
+
+					optParamList = append(optParamList, newOptParameter(G2DB.toFloat64(f), DOUBLE, DOUBLE_PREC))
+				}
 			}
 		case parser.DECIMAL:
 			{
@@ -254,7 +262,7 @@ func (dc *DmConnection) execOpt(sql string, optParamList []OptParameter, serverE
 					if backSlashFlag {
 						lval.Value = util.StringUtil.Translate(lval.Value)
 					}
-					optParamList = append(optParamList, newOptParameter(Dm_build_943.Dm_build_1159(lval.Value, serverEncoding, dc), VARCHAR, VARCHAR_PREC))
+					optParamList = append(optParamList, newOptParameter(Dm_build_1355.Dm_build_1571(lval.Value, serverEncoding, dc), VARCHAR, VARCHAR_PREC))
 				}
 			}
 		case parser.HEX_INT:

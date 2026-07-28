@@ -5,8 +5,9 @@
 package dm
 
 import (
-	"github.com/fengzehao/dm-go-driver/util"
 	"strconv"
+
+	"github.com/fengzehao/dm-go-driver/util"
 )
 
 const (
@@ -201,7 +202,7 @@ func (sv TypeData) makeupObjToArr(obj interface{}, objDesc *TypeDescriptor) ([]i
 		}
 
 		ret := make([]interface{}, prec)
-		rs := Dm_build_943.Dm_build_1159(strRet, objDesc.getServerEncoding(), objDesc.m_conn)
+		rs := Dm_build_1355.Dm_build_1571(strRet, objDesc.getServerEncoding(), objDesc.m_conn)
 		for i := 0; i < prec; i++ {
 			ret[i] = rs[i]
 		}
@@ -241,8 +242,8 @@ func (sv TypeData) typeDataToBytes(data *TypeData, desc *TypeDescriptor) ([]byte
 	var err error
 	if nil == data.m_dumyData {
 		innerData = sv.realocBuffer(nil, 0, 2)
-		Dm_build_943.Dm_build_944(innerData, 0, byte(0))
-		Dm_build_943.Dm_build_944(innerData, 1, byte(0))
+		Dm_build_1355.Dm_build_1356(innerData, 0, byte(0))
+		Dm_build_1355.Dm_build_1356(innerData, 1, byte(0))
 		return innerData, nil
 	}
 
@@ -258,10 +259,10 @@ func (sv TypeData) typeDataToBytes(data *TypeData, desc *TypeDescriptor) ([]byte
 
 		result = sv.realocBuffer(nil, 0, len(innerData)+BYTE_SIZE+BYTE_SIZE)
 
-		Dm_build_943.Dm_build_944(result, 0, byte(0))
+		Dm_build_1355.Dm_build_1356(result, 0, byte(0))
 		offset = 1
 
-		Dm_build_943.Dm_build_944(result, offset, byte(1))
+		Dm_build_1355.Dm_build_1356(result, offset, byte(1))
 		offset += 1
 		copy(result[offset:offset+len(innerData)], innerData[:len(innerData)])
 		return result, nil
@@ -274,10 +275,10 @@ func (sv TypeData) typeDataToBytes(data *TypeData, desc *TypeDescriptor) ([]byte
 		}
 		result = sv.realocBuffer(nil, 0, len(innerData)+BYTE_SIZE+BYTE_SIZE)
 
-		Dm_build_943.Dm_build_944(result, 0, byte(0))
+		Dm_build_1355.Dm_build_1356(result, 0, byte(0))
 		offset = 1
 
-		Dm_build_943.Dm_build_944(result, offset, byte(1))
+		Dm_build_1355.Dm_build_1356(result, offset, byte(1))
 		offset += 1
 
 		copy(result[offset:offset+len(innerData)], innerData[:len(innerData)])
@@ -291,10 +292,10 @@ func (sv TypeData) typeDataToBytes(data *TypeData, desc *TypeDescriptor) ([]byte
 		}
 		result = sv.realocBuffer(nil, 0, len(innerData)+BYTE_SIZE+BYTE_SIZE)
 
-		Dm_build_943.Dm_build_944(result, 0, byte(0))
+		Dm_build_1355.Dm_build_1356(result, 0, byte(0))
 		offset = 1
 
-		Dm_build_943.Dm_build_944(result, offset, byte(1))
+		Dm_build_1355.Dm_build_1356(result, offset, byte(1))
 		offset += 1
 		copy(result[offset:offset+len(innerData)], innerData[:len(innerData)])
 		return result, nil
@@ -307,10 +308,10 @@ func (sv TypeData) typeDataToBytes(data *TypeData, desc *TypeDescriptor) ([]byte
 		}
 		result = sv.realocBuffer(nil, 0, len(innerData)+BYTE_SIZE+BYTE_SIZE)
 
-		Dm_build_943.Dm_build_944(result, 0, byte(0))
+		Dm_build_1355.Dm_build_1356(result, 0, byte(0))
 		offset = 1
 
-		Dm_build_943.Dm_build_944(result, offset, byte(1))
+		Dm_build_1355.Dm_build_1356(result, offset, byte(1))
 		offset += 1
 
 		copy(result[offset:offset+len(innerData)], innerData[:len(innerData)])
@@ -321,21 +322,21 @@ func (sv TypeData) typeDataToBytes(data *TypeData, desc *TypeDescriptor) ([]byte
 
 		result = sv.realocBuffer(nil, 0, len(innerData)+BYTE_SIZE+BYTE_SIZE)
 
-		Dm_build_943.Dm_build_944(result, 0, byte(0))
+		Dm_build_1355.Dm_build_1356(result, 0, byte(0))
 		offset = 1
 
-		Dm_build_943.Dm_build_944(result, offset, byte(1))
+		Dm_build_1355.Dm_build_1356(result, offset, byte(1))
 		offset += 1
 		copy(result[offset:offset+len(innerData)], innerData[:len(innerData)])
 		return result, nil
 
 	case BOOLEAN:
 		innerData = sv.realocBuffer(nil, 0, 2)
-		Dm_build_943.Dm_build_944(innerData, 0, byte(0))
+		Dm_build_1355.Dm_build_1356(innerData, 0, byte(0))
 		if data.m_dataBuf != nil && len(data.m_dataBuf) > 0 {
-			Dm_build_943.Dm_build_944(innerData, 1, data.m_dataBuf[0])
+			Dm_build_1355.Dm_build_1356(innerData, 1, data.m_dataBuf[0])
 		} else {
-			Dm_build_943.Dm_build_944(innerData, 1, byte(0))
+			Dm_build_1355.Dm_build_1356(innerData, 1, byte(0))
 		}
 		return innerData, nil
 
@@ -344,13 +345,13 @@ func (sv TypeData) typeDataToBytes(data *TypeData, desc *TypeDescriptor) ([]byte
 		innerData = data.m_dataBuf
 		result = sv.realocBuffer(nil, 0, len(innerData)+BYTE_SIZE+BYTE_SIZE+USINT_SIZE)
 
-		Dm_build_943.Dm_build_944(result, 0, byte(0))
+		Dm_build_1355.Dm_build_1356(result, 0, byte(0))
 		offset = 1
 
-		Dm_build_943.Dm_build_944(result, offset, byte(1))
+		Dm_build_1355.Dm_build_1356(result, offset, byte(1))
 		offset += 1
 
-		Dm_build_943.Dm_build_954(result, offset, int16(len(innerData)))
+		Dm_build_1355.Dm_build_1366(result, offset, int16(len(innerData)))
 		offset += 2
 
 		copy(result[offset:offset+len(innerData)], innerData[:len(innerData)])
@@ -375,7 +376,7 @@ func (sv TypeData) convertLobToBytes(value interface{}, dtype int, serverEncodin
 			}
 
 			ret = make([]byte, l+ULINT_SIZE)
-			Dm_build_943.Dm_build_959(ret, 0, int32(l))
+			Dm_build_1355.Dm_build_1371(ret, 0, int32(l))
 			copy(ret[:ULINT_SIZE:ULINT_SIZE+l], tmp[:l])
 			return ret, nil
 		}
@@ -395,9 +396,9 @@ func (sv TypeData) convertLobToBytes(value interface{}, dtype int, serverEncodin
 				return nil, err
 			}
 
-			tmp = Dm_build_943.Dm_build_1159(subString, serverEncoding, nil)
+			tmp = Dm_build_1355.Dm_build_1571(subString, serverEncoding, nil)
 			ret = make([]byte, len(tmp)+ULINT_SIZE)
-			Dm_build_943.Dm_build_959(ret, 0, int32(l))
+			Dm_build_1355.Dm_build_1371(ret, 0, int32(l))
 			copy(ret[:ULINT_SIZE:ULINT_SIZE+l], tmp[:l])
 		}
 		return ret, nil
@@ -429,10 +430,10 @@ func (sv TypeData) sarrayToBytes(data *DmArray, desc *TypeDescriptor) ([]byte, e
 	rdata = sv.realocBuffer(nil, 0, totalLen)
 	off := 0
 
-	Dm_build_943.Dm_build_959(rdata, off, int32(totalLen))
+	Dm_build_1355.Dm_build_1371(rdata, off, int32(totalLen))
 	off += ULINT_SIZE
 
-	Dm_build_943.Dm_build_959(rdata, off, int32(data.m_arrDesc.getLength()))
+	Dm_build_1355.Dm_build_1371(rdata, off, int32(data.m_arrDesc.getLength()))
 	off += ULINT_SIZE
 
 	for i := 0; i < realLen; i++ {
@@ -465,18 +466,18 @@ func (sv TypeData) ctlnToBytes(data *DmArray, desc *TypeDescriptor) ([]byte, err
 
 	offset := 0
 
-	Dm_build_943.Dm_build_944(rdata, offset, byte(0))
+	Dm_build_1355.Dm_build_1356(rdata, offset, byte(0))
 	offset += BYTE_SIZE
 
 	offset += ULINT_SIZE
 
-	Dm_build_943.Dm_build_954(rdata, offset, int16(desc.getCltnType()))
+	Dm_build_1355.Dm_build_1366(rdata, offset, int16(desc.getCltnType()))
 	offset += USINT_SIZE
 
-	Dm_build_943.Dm_build_954(rdata, offset, int16(desc.m_arrObj.getDType()))
+	Dm_build_1355.Dm_build_1366(rdata, offset, int16(desc.m_arrObj.getDType()))
 	offset += USINT_SIZE
 
-	Dm_build_943.Dm_build_959(rdata, offset, int32(len(data.m_arrData)))
+	Dm_build_1355.Dm_build_1371(rdata, offset, int32(len(data.m_arrData)))
 	offset += ULINT_SIZE
 
 	for i := 0; i < len(data.m_arrData); i++ {
@@ -484,12 +485,16 @@ func (sv TypeData) ctlnToBytes(data *DmArray, desc *TypeDescriptor) ([]byte, err
 		offset += len(results[i])
 	}
 
-	Dm_build_943.Dm_build_959(rdata, BYTE_SIZE, int32(offset))
+	Dm_build_1355.Dm_build_1371(rdata, BYTE_SIZE, int32(offset))
 
 	return rdata, nil
 }
 
 func (sv TypeData) arrayToBytes(data *DmArray, desc *TypeDescriptor) ([]byte, error) {
+
+	if data != nil && desc != nil && desc.m_maxCnt > 0 && data.m_itemCount > desc.m_maxCnt {
+		return nil, ECGO_INVALID_ARRAY_LEN
+	}
 	results := make([][]byte, len(data.m_arrData))
 	var rdata []byte
 	var err error
@@ -515,23 +520,23 @@ func (sv TypeData) arrayToBytes(data *DmArray, desc *TypeDescriptor) ([]byte, er
 
 	rdata = sv.realocBuffer(nil, 0, totalLen)
 
-	Dm_build_943.Dm_build_959(rdata, 0, int32(totalLen))
+	Dm_build_1355.Dm_build_1371(rdata, 0, int32(totalLen))
 	offset := ULINT_SIZE
 
-	Dm_build_943.Dm_build_959(rdata, offset, int32(len(data.m_arrData)))
+	Dm_build_1355.Dm_build_1371(rdata, offset, int32(len(data.m_arrData)))
 	offset += ULINT_SIZE
 
-	Dm_build_943.Dm_build_959(rdata, offset, 0)
+	Dm_build_1355.Dm_build_1371(rdata, offset, 0)
 	offset += ULINT_SIZE
 
-	Dm_build_943.Dm_build_959(rdata, offset, int32(data.m_objCount))
+	Dm_build_1355.Dm_build_1371(rdata, offset, int32(data.m_objCount))
 	offset += ULINT_SIZE
 
-	Dm_build_943.Dm_build_959(rdata, offset, int32(data.m_strCount))
+	Dm_build_1355.Dm_build_1371(rdata, offset, int32(data.m_strCount))
 	offset += ULINT_SIZE
 
 	for i := 0; i < total; i++ {
-		Dm_build_943.Dm_build_959(rdata, offset, int32(data.m_objStrOffs[i]))
+		Dm_build_1355.Dm_build_1371(rdata, offset, int32(data.m_objStrOffs[i]))
 		offset += ULINT_SIZE
 	}
 
@@ -573,10 +578,10 @@ func (sv TypeData) structToBytes(data *DmStruct, desc *TypeDescriptor) ([]byte, 
 	rdata = sv.realocBuffer(nil, 0, totalLen)
 	offset := 0
 
-	Dm_build_943.Dm_build_944(rdata, offset, byte(0))
+	Dm_build_1355.Dm_build_1356(rdata, offset, byte(0))
 	offset += BYTE_SIZE
 
-	Dm_build_943.Dm_build_959(rdata, offset, int32(totalLen))
+	Dm_build_1355.Dm_build_1371(rdata, offset, int32(totalLen))
 	offset += ULINT_SIZE
 
 	for i := 0; i < size; i++ {
@@ -604,7 +609,7 @@ func (sv TypeData) recordToBytes(data *DmStruct, desc *TypeDescriptor) ([]byte, 
 
 	totalLen += ULINT_SIZE
 	rdata = sv.realocBuffer(nil, 0, totalLen)
-	Dm_build_943.Dm_build_959(rdata, 0, int32(totalLen))
+	Dm_build_1355.Dm_build_1371(rdata, 0, int32(totalLen))
 
 	offset := ULINT_SIZE
 	for i := 0; i < desc.getStrctMemSize(); i++ {
@@ -617,10 +622,10 @@ func (sv TypeData) recordToBytes(data *DmStruct, desc *TypeDescriptor) ([]byte, 
 
 func (sv TypeData) bytesToBlob(val []byte, out *TypeData, desc *TypeDescriptor) (*TypeData, error) {
 	offset := out.m_offset
-	l := Dm_build_943.Dm_build_1045(val, offset)
+	l := Dm_build_1355.Dm_build_1457(val, offset)
 	offset += ULINT_SIZE
 
-	tmp := Dm_build_943.Dm_build_1094(val, offset, int(l))
+	tmp := Dm_build_1355.Dm_build_1506(val, offset, int(l))
 	offset += int(l)
 	out.m_offset = offset
 
@@ -629,14 +634,14 @@ func (sv TypeData) bytesToBlob(val []byte, out *TypeData, desc *TypeDescriptor) 
 
 func (sv TypeData) bytesToClob(val []byte, out *TypeData, desc *TypeDescriptor, serverEncoding string) (*TypeData, error) {
 	offset := out.m_offset
-	l := Dm_build_943.Dm_build_1045(val, offset)
+	l := Dm_build_1355.Dm_build_1457(val, offset)
 	offset += ULINT_SIZE
 
-	tmp := Dm_build_943.Dm_build_1094(val, offset, int(l))
+	tmp := Dm_build_1355.Dm_build_1506(val, offset, int(l))
 	offset += int(l)
 	out.m_offset = offset
 
-	return newTypeData(newClobOfLocal(Dm_build_943.Dm_build_1100(tmp, 0, len(tmp), serverEncoding, desc.m_conn), desc.m_conn), tmp), nil
+	return newTypeData(newClobOfLocal(Dm_build_1355.Dm_build_1512(tmp, 0, len(tmp), serverEncoding, desc.m_conn), desc.m_conn), tmp), nil
 }
 
 func (sv TypeData) bytesToTypeData(val []byte, out *TypeData, desc *TypeDescriptor) (*TypeData, error) {
@@ -644,7 +649,7 @@ func (sv TypeData) bytesToTypeData(val []byte, out *TypeData, desc *TypeDescript
 
 	offset += 1
 
-	null_flag := Dm_build_943.Dm_build_1036(val, offset)
+	null_flag := Dm_build_1355.Dm_build_1448(val, offset)
 	offset += 1
 
 	out.m_offset = offset
@@ -655,7 +660,7 @@ func (sv TypeData) bytesToTypeData(val []byte, out *TypeData, desc *TypeDescript
 			b = true
 		}
 
-		tmp := Dm_build_943.Dm_build_1094(val, offset-1, 1)
+		tmp := Dm_build_1355.Dm_build_1506(val, offset-1, 1)
 		return newTypeData(b, tmp), nil
 	}
 
@@ -671,7 +676,7 @@ func (sv TypeData) bytesToTypeData(val []byte, out *TypeData, desc *TypeDescript
 			}
 
 			if out.m_offset > offset {
-				retDataBuf = Dm_build_943.Dm_build_1094(val, offset, out.m_offset-offset)
+				retDataBuf = Dm_build_1355.Dm_build_1506(val, offset, out.m_offset-offset)
 			}
 
 			return newTypeData(retObj, retDataBuf), nil
@@ -687,7 +692,7 @@ func (sv TypeData) bytesToTypeData(val []byte, out *TypeData, desc *TypeDescript
 			}
 
 			if out.m_offset > offset {
-				retDataBuf = Dm_build_943.Dm_build_1094(val, offset, out.m_offset-offset)
+				retDataBuf = Dm_build_1355.Dm_build_1506(val, offset, out.m_offset-offset)
 			}
 
 			return newTypeData(retObj, retDataBuf), nil
@@ -703,7 +708,7 @@ func (sv TypeData) bytesToTypeData(val []byte, out *TypeData, desc *TypeDescript
 			}
 
 			if out.m_offset > offset {
-				retDataBuf = Dm_build_943.Dm_build_1094(val, offset, out.m_offset-offset)
+				retDataBuf = Dm_build_1355.Dm_build_1506(val, offset, out.m_offset-offset)
 			}
 
 			return newTypeData(retObj, retDataBuf), nil
@@ -719,7 +724,7 @@ func (sv TypeData) bytesToTypeData(val []byte, out *TypeData, desc *TypeDescript
 			}
 
 			if out.m_offset > offset {
-				retDataBuf = Dm_build_943.Dm_build_1094(val, offset, out.m_offset-offset)
+				retDataBuf = Dm_build_1355.Dm_build_1506(val, offset, out.m_offset-offset)
 			}
 
 			return newTypeData(retObj, retDataBuf), nil
@@ -753,7 +758,7 @@ func (sv TypeData) bytesToTypeData(val []byte, out *TypeData, desc *TypeDescript
 
 func (sv TypeData) checkObjExist(val []byte, out *TypeData) bool {
 	offset := out.m_offset
-	exist_flag := Dm_build_943.Dm_build_1036(val, offset)
+	exist_flag := Dm_build_1355.Dm_build_1448(val, offset)
 	offset += 1
 
 	out.m_offset = offset
@@ -769,7 +774,7 @@ func (sv TypeData) checkObjExist(val []byte, out *TypeData) bool {
 func (sv TypeData) findObjByPackId(val []byte, out *TypeData) (*DmStruct, error) {
 	offset := out.m_offset
 
-	pack_id := int(Dm_build_943.Dm_build_1045(val, offset))
+	pack_id := int(Dm_build_1355.Dm_build_1457(val, offset))
 	offset += ULINT_SIZE
 
 	out.m_offset = offset
@@ -809,7 +814,7 @@ func (sv TypeData) bytesToObj_EXACT(val []byte, out *TypeData, desc *TypeDescrip
 		strOut.m_attribs[i] = *tmp
 	}
 
-	strOut.m_dataBuf = Dm_build_943.Dm_build_1094(val, offset, out.m_offset-offset)
+	strOut.m_dataBuf = Dm_build_1355.Dm_build_1506(val, offset, out.m_offset-offset)
 
 	return strOut, nil
 }
@@ -819,7 +824,7 @@ func (sv TypeData) bytesToNestTab(val []byte, out *TypeData, desc *TypeDescripto
 
 	offset += USINT_SIZE
 
-	count := Dm_build_943.Dm_build_1045(val, offset)
+	count := Dm_build_1355.Dm_build_1457(val, offset)
 	offset += ULINT_SIZE
 
 	out.m_offset = offset
@@ -835,7 +840,7 @@ func (sv TypeData) bytesToNestTab(val []byte, out *TypeData, desc *TypeDescripto
 		arrOut.m_arrData[i] = *tmp
 	}
 
-	arrOut.m_dataBuf = Dm_build_943.Dm_build_1094(val, offset, out.m_offset-offset)
+	arrOut.m_dataBuf = Dm_build_1355.Dm_build_1506(val, offset, out.m_offset-offset)
 
 	return arrOut, nil
 }
@@ -845,7 +850,7 @@ func (sv TypeData) bytesToClnt(val []byte, out *TypeData, desc *TypeDescriptor) 
 
 	offset := out.m_offset
 
-	cltn_type := Dm_build_943.Dm_build_1040(val, offset)
+	cltn_type := Dm_build_1355.Dm_build_1452(val, offset)
 	offset += USINT_SIZE
 
 	out.m_offset = offset
@@ -899,25 +904,25 @@ func (sv TypeData) bytesToArray(val []byte, out *TypeData, desc *TypeDescriptor)
 
 	offset := out.m_offset
 
-	arrOut.m_bufLen = int(Dm_build_943.Dm_build_1045(val, offset))
+	arrOut.m_bufLen = int(Dm_build_1355.Dm_build_1457(val, offset))
 	offset += 4
 
-	arrOut.m_itemCount = int(Dm_build_943.Dm_build_1045(val, offset))
+	arrOut.m_itemCount = int(Dm_build_1355.Dm_build_1457(val, offset))
 	offset += ULINT_SIZE
 
-	arrOut.m_itemSize = int(Dm_build_943.Dm_build_1045(val, offset))
+	arrOut.m_itemSize = int(Dm_build_1355.Dm_build_1457(val, offset))
 	offset += ULINT_SIZE
 
-	arrOut.m_objCount = int(Dm_build_943.Dm_build_1045(val, offset))
+	arrOut.m_objCount = int(Dm_build_1355.Dm_build_1457(val, offset))
 	offset += ULINT_SIZE
 
-	arrOut.m_strCount = int(Dm_build_943.Dm_build_1045(val, offset))
+	arrOut.m_strCount = int(Dm_build_1355.Dm_build_1457(val, offset))
 	offset += ULINT_SIZE
 
 	total := arrOut.m_objCount + arrOut.m_strCount
 	arrOut.m_objStrOffs = make([]int, total)
 	for i := 0; i < total; i++ {
-		arrOut.m_objStrOffs[i] = int(Dm_build_943.Dm_build_1045(val, offset))
+		arrOut.m_objStrOffs[i] = int(Dm_build_1355.Dm_build_1457(val, offset))
 		offset += 4
 	}
 
@@ -932,7 +937,7 @@ func (sv TypeData) bytesToArray(val []byte, out *TypeData, desc *TypeDescriptor)
 		arrOut.m_arrData[i] = *tmp
 	}
 
-	arrOut.m_dataBuf = Dm_build_943.Dm_build_1094(val, offset, out.m_offset-offset)
+	arrOut.m_dataBuf = Dm_build_1355.Dm_build_1506(val, offset, out.m_offset-offset)
 
 	return arrOut, nil
 }
@@ -945,10 +950,10 @@ func (sv TypeData) bytesToSArray(val []byte, out *TypeData, desc *TypeDescriptor
 	offset := out.m_offset
 
 	arrOut := newDmArrayByTypeData(nil, desc)
-	arrOut.m_bufLen = int(Dm_build_943.Dm_build_1045(val, offset))
+	arrOut.m_bufLen = int(Dm_build_1355.Dm_build_1457(val, offset))
 	offset += ULINT_SIZE
 
-	arrOut.m_itemCount = int(Dm_build_943.Dm_build_1045(val, offset))
+	arrOut.m_itemCount = int(Dm_build_1355.Dm_build_1457(val, offset))
 	offset += ULINT_SIZE
 
 	out.m_offset = offset
@@ -962,7 +967,7 @@ func (sv TypeData) bytesToSArray(val []byte, out *TypeData, desc *TypeDescriptor
 		arrOut.m_arrData[i] = *tmp
 	}
 
-	arrOut.m_dataBuf = Dm_build_943.Dm_build_1094(val, offset, out.m_offset-offset)
+	arrOut.m_dataBuf = Dm_build_1355.Dm_build_1506(val, offset, out.m_offset-offset)
 
 	return arrOut, nil
 }
@@ -975,7 +980,7 @@ func (sv TypeData) bytesToRecord(val []byte, out *TypeData, desc *TypeDescriptor
 	offset := out.m_offset
 
 	strOut := newDmStructByTypeData(nil, desc)
-	strOut.m_bufLen = int(Dm_build_943.Dm_build_1045(val, offset))
+	strOut.m_bufLen = int(Dm_build_1355.Dm_build_1457(val, offset))
 	offset += ULINT_SIZE
 
 	out.m_offset = offset
@@ -989,7 +994,7 @@ func (sv TypeData) bytesToRecord(val []byte, out *TypeData, desc *TypeDescriptor
 		strOut.m_attribs[i] = *tmp
 	}
 
-	strOut.m_dataBuf = Dm_build_943.Dm_build_1094(val, offset, out.m_offset-offset)
+	strOut.m_dataBuf = Dm_build_1355.Dm_build_1506(val, offset, out.m_offset-offset)
 
 	return strOut, nil
 }
@@ -998,10 +1003,10 @@ func (sv TypeData) objBlob_GetChkBuf(buf []byte, typeData *TypeData) {
 
 	offset := 4
 
-	l := int(Dm_build_943.Dm_build_1045(buf, offset))
+	l := int(Dm_build_1355.Dm_build_1457(buf, offset))
 	offset += ULINT_SIZE
 
-	typeData.m_objBlobDescBuf = Dm_build_943.Dm_build_1094(buf, offset, l)
+	typeData.m_objBlobDescBuf = Dm_build_1355.Dm_build_1506(buf, offset, l)
 	offset += l
 
 	typeData.m_isFromBlob = true
@@ -1030,16 +1035,16 @@ func (sv TypeData) objBlobToBytes(lobBuf []byte, desc *TypeDescriptor) ([]byte, 
 	l := len(lobBuf)
 	offset := 0
 
-	magic := Dm_build_943.Dm_build_1045(lobBuf, offset)
+	magic := Dm_build_1355.Dm_build_1457(lobBuf, offset)
 	offset += ULINT_SIZE
 
 	if OBJ_BLOB_MAGIC != magic {
 		return nil, ECGO_INVALID_OBJ_BLOB.throw()
 	}
 
-	descLen := int(Dm_build_943.Dm_build_1045(lobBuf, offset))
+	descLen := int(Dm_build_1355.Dm_build_1457(lobBuf, offset))
 	offset += ULINT_SIZE
-	descBuf := Dm_build_943.Dm_build_1094(lobBuf, offset, descLen)
+	descBuf := Dm_build_1355.Dm_build_1506(lobBuf, offset, descLen)
 	tmp, err := desc.getClassDescChkInfo()
 	if err != nil {
 		return nil, err
@@ -1072,16 +1077,16 @@ func (sv TypeData) realocBuffer(oldBuf []byte, offset int, needLen int) []byte {
 func (sv TypeData) convertBytes2BaseData(val []byte, out *TypeData, desc *TypeDescriptor) (*TypeData, error) {
 	offset := out.m_offset
 	isNull := false
-	valueLen := int(Dm_build_943.Dm_build_1067(val, offset))
+	valueLen := int(Dm_build_1355.Dm_build_1479(val, offset))
 	offset += USINT_SIZE
 
-	if valueLen == int(Dm_build_343) {
+	if valueLen == int(Dm_build_755) {
 		valueLen = 0
 		isNull = true
 	}
 
 	if -1 == valueLen {
-		valueLen = int(Dm_build_943.Dm_build_1045(val, offset))
+		valueLen = int(Dm_build_1355.Dm_build_1457(val, offset))
 		offset += ULINT_SIZE
 	}
 
@@ -1092,7 +1097,7 @@ func (sv TypeData) convertBytes2BaseData(val []byte, out *TypeData, desc *TypeDe
 
 	var tmpObj interface{}
 	var err error
-	temp := Dm_build_943.Dm_build_1094(val, offset, valueLen)
+	temp := Dm_build_1355.Dm_build_1506(val, offset, valueLen)
 	offset += valueLen
 	out.m_offset = offset
 
@@ -1260,47 +1265,165 @@ func (td *TypeData) toJavaArray(arr *DmArray, index int64, l int, dType int) (in
 }
 
 func (td *TypeData) toNumericArray(arr *DmArray, index int64, l int, flag int) (interface{}, error) {
-	if nil == arr.m_objArray {
-		return nil, nil
-	}
 
-	var retObj interface{}
-	switch arr.m_objArray.(type) {
-	case []int16:
+	if arr.m_arrData != nil {
 		if flag == ARRAY_TYPE_SHORT {
-			ret := make([]int16, l)
-			copy(ret[:l], arr.m_objArray.([]int16)[index:index+int64(l)])
-			retObj = ret
+			return toServerShortSlice(index, int64(l), arr.m_arrData)
+		} else if flag == ARRAY_TYPE_INTEGER {
+			return toServerIntSlice(index, int64(l), arr.m_arrData)
+		} else if flag == ARRAY_TYPE_LONG {
+			return toServerLongSlice(index, int64(l), arr.m_arrData)
+		} else if flag == ARRAY_TYPE_FLOAT {
+			return toServerFloatSlice(index, int64(l), arr.m_arrData)
+		} else if flag == ARRAY_TYPE_DOUBLE {
+			return toServerDoubleSlice(index, int64(l), arr.m_arrData)
 		}
-	case []int:
-		if flag == ARRAY_TYPE_INTEGER {
-			ret := make([]int, l)
-			copy(ret[:l], arr.m_objArray.([]int)[index:index+int64(l)])
-			retObj = ret
+	} else if arr.m_arrData == nil && arr.elements != nil {
+
+		if flag == ARRAY_TYPE_SHORT {
+			return toShortSlice(index, int64(l), arr.elements)
+		} else if flag == ARRAY_TYPE_INTEGER {
+			return toIntSlice(index, int64(l), arr.elements)
+		} else if flag == ARRAY_TYPE_LONG {
+			return toLongSlice(index, int64(l), arr.elements)
+		} else if flag == ARRAY_TYPE_FLOAT {
+			return toFloatSlice(index, int64(l), arr.elements)
+		} else if flag == ARRAY_TYPE_DOUBLE {
+			return toDoubleSlice(index, int64(l), arr.elements)
 		}
-	case []int64:
-		if flag == ARRAY_TYPE_LONG {
-			ret := make([]int64, l)
-			copy(ret[:l], arr.m_objArray.([]int64)[index:index+int64(l)])
-			retObj = ret
-		}
-	case []float32:
-		if flag == ARRAY_TYPE_FLOAT {
-			ret := make([]float32, l)
-			copy(ret[:l], arr.m_objArray.([]float32)[index:index+int64(l)])
-			retObj = ret
-		}
-	case []float64:
-		if flag == ARRAY_TYPE_DOUBLE {
-			ret := make([]float64, l)
-			copy(ret[:l], arr.m_objArray.([]float64)[index:index+int64(l)])
-			retObj = ret
-		}
-	default:
-		return nil, ECGO_DATA_CONVERTION_ERROR.throw()
 	}
 
-	return retObj, nil
+	return nil, nil
+}
+
+func toShortSlice(index int64, len int64, v []interface{}) ([]int16, error) {
+	res := make([]int16, len)
+	for ; index < len; index++ {
+
+		n, ok := v[index].(int16)
+		if !ok {
+			return nil, ECGO_DATA_CONVERTION_ERROR.throw()
+		}
+		res[index] = n
+	}
+	return res, nil
+}
+
+func toServerShortSlice(index int64, len int64, v []TypeData) ([]int16, error) {
+	res := make([]int16, len)
+	for ; index < len; index++ {
+
+		n, ok := v[index].m_dumyData.(int16)
+		if !ok {
+			return nil, ECGO_DATA_CONVERTION_ERROR.throw()
+		}
+		res[index] = n
+	}
+	return res, nil
+}
+
+func toIntSlice(index int64, len int64, v []interface{}) ([]int, error) {
+	res := make([]int, len)
+	for ; index < len; index++ {
+
+		n, ok := v[index].(int)
+		if !ok {
+			return nil, ECGO_DATA_CONVERTION_ERROR.throw()
+		}
+		res[index] = n
+	}
+	return res, nil
+}
+
+func toServerIntSlice(index int64, len int64, v []TypeData) ([]int, error) {
+	res := make([]int, len)
+	for ; index < len; index++ {
+
+		n, ok := v[index].m_dumyData.(int32)
+		if !ok {
+			return nil, ECGO_DATA_CONVERTION_ERROR.throw()
+		}
+		res[index] = int(n)
+	}
+	return res, nil
+}
+
+func toLongSlice(index int64, len int64, v []interface{}) ([]int64, error) {
+	res := make([]int64, len)
+	for ; index < len; index++ {
+
+		n, ok := v[index].(int64)
+		if !ok {
+			return nil, ECGO_DATA_CONVERTION_ERROR.throw()
+		}
+		res[index] = n
+	}
+	return res, nil
+}
+
+func toServerLongSlice(index int64, len int64, v []TypeData) ([]int64, error) {
+	res := make([]int64, len)
+	for ; index < len; index++ {
+
+		n, ok := v[index].m_dumyData.(int64)
+		if !ok {
+			return nil, ECGO_DATA_CONVERTION_ERROR.throw()
+		}
+		res[index] = n
+	}
+	return res, nil
+}
+
+func toFloatSlice(index int64, len int64, v []interface{}) ([]float32, error) {
+	res := make([]float32, len)
+	for ; index < len; index++ {
+
+		n, ok := v[index].(float32)
+		if !ok {
+			return nil, ECGO_DATA_CONVERTION_ERROR.throw()
+		}
+		res[index] = n
+	}
+	return res, nil
+}
+
+func toServerFloatSlice(index int64, len int64, v []TypeData) ([]float32, error) {
+	res := make([]float32, len)
+	for ; index < len; index++ {
+
+		n, ok := v[index].m_dumyData.(float32)
+		if !ok {
+			return nil, ECGO_DATA_CONVERTION_ERROR.throw()
+		}
+		res[index] = n
+	}
+	return res, nil
+}
+
+func toDoubleSlice(index int64, len int64, v []interface{}) ([]float64, error) {
+	res := make([]float64, len)
+	for ; index < len; index++ {
+
+		n, ok := v[index].(float64)
+		if !ok {
+			return nil, ECGO_DATA_CONVERTION_ERROR.throw()
+		}
+		res[index] = n
+	}
+	return res, nil
+}
+
+func toServerDoubleSlice(index int64, len int64, v []TypeData) ([]float64, error) {
+	res := make([]float64, len)
+	for ; index < len; index++ {
+
+		n, ok := v[index].m_dumyData.(float64)
+		if !ok {
+			return nil, ECGO_DATA_CONVERTION_ERROR.throw()
+		}
+		res[index] = n
+	}
+	return res, nil
 }
 
 func (td *TypeData) toJavaArrayByDmStruct(st *DmStruct) ([]interface{}, error) {
@@ -1349,8 +1472,8 @@ func (td *TypeData) toBytesFromDmArray(x *DmArray, typeDesc *TypeDescriptor) ([]
 		}
 	}
 	ret := make([]byte, ULINT_SIZE+ULINT_SIZE+len(desc)+len(data))
-	Dm_build_943.Dm_build_959(ret, 0, OBJ_BLOB_MAGIC)
-	Dm_build_943.Dm_build_959(ret, ULINT_SIZE, int32(len(desc)))
+	Dm_build_1355.Dm_build_1371(ret, 0, OBJ_BLOB_MAGIC)
+	Dm_build_1355.Dm_build_1371(ret, ULINT_SIZE, int32(len(desc)))
 	copy(ret[ULINT_SIZE+ULINT_SIZE:ULINT_SIZE+ULINT_SIZE+len(desc)], desc[:len(desc)])
 	copy(ret[ULINT_SIZE+ULINT_SIZE+len(desc):ULINT_SIZE+ULINT_SIZE+len(desc)+len(data)], data[:len(data)])
 	return ret, nil
@@ -1380,8 +1503,8 @@ func (td *TypeData) toBytesFromDmStruct(x *DmStruct, typeDesc *TypeDescriptor) (
 		}
 	}
 	ret := make([]byte, ULINT_SIZE+ULINT_SIZE+len(desc)+len(data))
-	Dm_build_943.Dm_build_959(ret, 0, OBJ_BLOB_MAGIC)
-	Dm_build_943.Dm_build_959(ret, ULINT_SIZE, int32(len(desc)))
+	Dm_build_1355.Dm_build_1371(ret, 0, OBJ_BLOB_MAGIC)
+	Dm_build_1355.Dm_build_1371(ret, ULINT_SIZE, int32(len(desc)))
 	copy(ret[ULINT_SIZE+ULINT_SIZE:ULINT_SIZE+ULINT_SIZE+len(desc)], desc[:len(desc)])
 	copy(ret[ULINT_SIZE+ULINT_SIZE+len(desc):ULINT_SIZE+ULINT_SIZE+len(desc)+len(data)], data[:len(data)])
 	return ret, nil

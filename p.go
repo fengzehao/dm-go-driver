@@ -8,15 +8,16 @@ import (
 	"context"
 	"database/sql"
 	"database/sql/driver"
-	"github.com/fengzehao/dm-go-driver/i18n"
 	"net"
 	"sync"
+
+	"github.com/fengzehao/dm-go-driver/i18n"
 )
 
 // 发版标记
-var version = "8.1.4.200"
-var build_date = "2026.02.12"
-var svn = "43876"
+var version = "8.1.5.60"
+var build_date = "2026.07.02"
+var svn = "50934"
 
 var globalDmDriver = newDmDriver()
 
@@ -38,7 +39,7 @@ func driverInit(svcConfPath string) {
 
 type DmDriver struct {
 	filterable
-	mu           sync.Mutex
+	mu sync.Mutex
 	//readPropMutex sync.Mutex
 }
 
@@ -113,6 +114,6 @@ func (d *DmDriver) openConnector(dsn string) (*DmConnector, error) {
 	return connector, nil
 }
 
-func GetDriverVersion() string{
+func GetDriverVersion() string {
 	return version
 }
